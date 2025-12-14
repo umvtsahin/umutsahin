@@ -1,4 +1,4 @@
-// script.js - Lightbox Etkileşimi
+// script.js - Lightbox Etkileşimi ve Yükleme Animasyonu Eklendi
 
 // Lightbox elementlerini seçelim
 const lightbox = document.getElementById('lightbox');
@@ -7,24 +7,42 @@ const lightboxDesc = document.getElementById('lightbox-description');
 const lightboxDate = document.getElementById('lightbox-date');
 const closeBtn = document.querySelector('.close-btn');
 
-/**
- * Bir fotoğraf öğesine tıklandığında Lightbox'ı açar ve içeriği doldurur.
- * @param {HTMLImageElement} imgElement - Tıklanan resim elementi.
- */
+// =========================================================
+// YÜKLEME ANİMASYONU FONKSİYONU
+// =========================================================
+document.addEventListener("DOMContentLoaded", function() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    // Sayfa yüklendikten sonra, her bir fotoğrafı kademeli olarak görünür yap
+    galleryItems.forEach((item, index) => {
+        // 100ms başlangıç gecikmesi + her öğe için 100ms ek gecikme
+        setTimeout(() => {
+            item.classList.add('loaded');
+        }, 100 + (index * 100)); 
+    });
+});
+
+
+// =========================================================
+// LIGHTBOX FONKSİYONLARI (Daha önce verdiğimiz kodlar)
+// =========================================================
+
 function openLightbox(imgElement) {
-    // Fotoğrafın kaynağını ve data özniteliklerini al
     const src = imgElement.src;
     const description = imgElement.getAttribute('data-description') || 'Açıklama yok.';
     const date = imgElement.getAttribute('data-date') || 'Tarih belirtilmemiş.';
 
-    // Lightbox içeriğini doldur
     lightboxImg.src = src;
     lightboxDesc.textContent = description;
     lightboxDate.textContent = 'Çekim Tarihi: ' + date;
 
-    // Lightbox'ı görünür yap
-    lightbox.style.display = "flex"; // Flex ile içeriği dikeyde de ortalar
-    document.body.style.overflow = "hidden"; // Lightbox açıkken kaydırmayı engelle
+    lightbox.style.display = "flex"; 
+    document.body.style.overflow = "hidden"; 
+}
+
+function closeLightbox() {
+    lightbox.style.display = "none";
+    document.body.style.overflow = "auto";
 }
 
 // Kapatma butonuna tıklandığında Lightbox'ı kapat
@@ -45,8 +63,3 @@ document.onkeydown = function(e) {
         closeLightbox();
     }
 };
-
-function closeLightbox() {
-    lightbox.style.display = "none";
-    document.body.style.overflow = "auto"; // Sayfa kaydırmasını geri aç
-}
