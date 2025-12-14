@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umut Şahin - Galeri</title>
+    <title>Umut Şahin - Kış Galerisi</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,26 +11,36 @@
 </head>
 <body>
 
+    <div id="snow-container"></div> 
+    
     <header>
         <h1>UMUT ŞAHİN</h1>
-        <p class="tagline">Işık ve Sözler</p>
+        <p class="tagline">Işık, Sözler ve Kış Rüyası</p>
     </header>
 
     <main class="gallery-container">
         <div class="gallery-item">
-            <img src="https://i.pinimg.com/736x/c0/4b/a3/c04ba3d8c32b49cd10649d6e634d6f92.jpg" alt="Pencere Kenarındaki Kedi" 
-                 data-description="Pencere kenarındaki kedi. İlk ışıkların düştüğü an." 
-                 data-date="2025/11/20" 
+            <img src="https://i.pinimg.com/73x/c0/4b/a3/c04ba3d8c32b49cd10649d6e634d6f92.jpg" alt="Pencere Kenarındaki Kedi" 
+                 data-description="Huzurlu bir kış sabahı. Pencere kenarında dostum ve uzaklardaki şehir silüeti." 
+                 data-date="2025/12/14" 
                  onclick="openLightbox(this)">
         </div>
-
+        
         <div class="gallery-item">
             <img src="https://picsum.photos/id/1043/800/600" alt="Göl Manzarası" 
-                 data-description="Ufukta solgun şehir silüeti. Sakin sular ve toprak tonları." 
+                 data-description="Kış manzarası. Sessizliğin sesi ve soluk gökyüzü." 
                  data-date="2025/12/05" 
                  onclick="openLightbox(this)">
         </div>
-    </main>
+        
+        <div class="gallery-item">
+            <img src="https://picsum.photos/id/1079/600/950" alt="Kış Işıkları" 
+                 data-description="Sokak lambaları altında düşen ilk kar taneleri." 
+                 data-date="2025/12/12" 
+                 onclick="openLightbox(this)">
+        </div>
+
+        </main>
 
     <div id="lightbox" class="lightbox">
         <span class="close-btn">&times;</span>
@@ -39,6 +49,14 @@
             <p id="lightbox-description"></p>
             <span id="lightbox-date" class="date-info"></span>
         </div>
+    </div>
+
+    <div id="audio-bar">
+        <p>Kış Rüyası</p>
+        <audio id="site-audio" controls loop>
+            <source src="[ŞARKINIZIN DİREKT MP3 URL'Sİ]" type="audio/mpeg"> 
+            Tarayıcınız ses dosyasını desteklemiyor.
+        </audio>
     </div>
 
     <script src="script.js"></script>
