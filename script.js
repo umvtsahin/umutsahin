@@ -1,4 +1,4 @@
-// script.js - Lightbox Etkileşimi ve Yükleme Animasyonu Eklendi
+// script.js - Lightbox, Yükleme Animasyonu ve Kar Yağışı Fonksiyonları
 
 // Lightbox elementlerini seçelim
 const lightbox = document.getElementById('lightbox');
@@ -8,7 +8,7 @@ const lightboxDate = document.getElementById('lightbox-date');
 const closeBtn = document.querySelector('.close-btn');
 
 // =========================================================
-// YÜKLEME ANİMASYONU FONKSİYONU
+// YÜKLEME ANİMASYONU (VSCO Tarzı Fade-In)
 // =========================================================
 document.addEventListener("DOMContentLoaded", function() {
     const galleryItems = document.querySelectorAll('.gallery-item');
@@ -22,9 +22,34 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+// =========================================================
+// KAR YAĞIŞI OLUŞTURUCU FONKSİYONU
+// =========================================================
+function createSnowflake() {
+    const snowContainer = document.getElementById('snow-container');
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    snowflake.innerHTML = '&#10052;'; // Kar tanesi ikonu (❄)
+
+    // Rastgele başlangıç pozisyonu, büyüklük ve süre ayarları
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10 saniye
+    snowflake.style.fontSize = Math.random() * 0.8 + 0.8 + 'em'; // 0.8-1.6em
+    
+    snowContainer.appendChild(snowflake);
+
+    // Belli bir süre sonra kar tanesini DOM'dan kaldır (performans için)
+    setTimeout(() => {
+        snowflake.remove();
+    }, 10000); // 10 saniye sonra kaldır
+}
+
+// Her 100 milisaniyede bir yeni kar tanesi oluştur
+setInterval(createSnowflake, 100);
+
 
 // =========================================================
-// LIGHTBOX FONKSİYONLARI (Daha önce verdiğimiz kodlar)
+// LIGHTBOX FONKSİYONLARI
 // =========================================================
 
 function openLightbox(imgElement) {
