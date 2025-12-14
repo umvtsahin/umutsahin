@@ -8,7 +8,7 @@ let allPhotos = [];
 let uniqueCategories = new Set();
 let player;
 let isMuted = true;
-let galleryLoaded = false; // Galerinin sadece bir kez yüklenmesini kontrol etmek için
+let galleryLoaded = false; 
 
 // 2. MÜZİK KONTROLÜ VE SORUN GİDERME
 function onYouTubeIframeAPIReady() {
@@ -31,16 +31,13 @@ function onPlayerReady(event) {
     event.target.playVideo();
 }
 
-// player.unMute is not a function HATASI ÇÖZÜLDÜ
 document.addEventListener('click', function handleFirstInteraction() {
-    // Player'ın varlığını ve durumunun oynatılmaya uygun olduğunu kontrol et
     if (player && isMuted && typeof player.unMute === 'function') {
         player.unMute(); 
         isMuted = false;
         
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
     }
-    // Player hazır olmasa bile, ilk etkileşimden sonra dinleyiciyi kaldır
     document.removeEventListener('click', handleFirstInteraction);
 });
 
@@ -95,15 +92,13 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Açılış Sorunu Çözümü: Intro ekranı hemen ve gecikmesiz kalkıyor
     const introScreen = document.getElementById('intro-screen');
-    introScreen.style.transition = 'opacity 0.1s ease-out'; // Anında geçiş
+    introScreen.style.transition = 'opacity 0.1s ease-out'; 
     introScreen.style.opacity = '0';
     setTimeout(() => {
         introScreen.style.display = 'none';
         
-        // Galerinin aktif olduğundan emin ol
         navigate('home-page'); 
         
-        // Lightbox'ın açık kalma ihtimaline karşı kontrol
         closeLightbox(); 
 
     }, 100); 
@@ -111,6 +106,29 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!galleryLoaded) {
         loadGalleryFromSheet();
     }
+    
+    // ANONİM MESAJ FORMU KONTROLÜ İÇİN EK KISIM
+    const form = document.getElementById('anonymous-message-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            
+            const status = document.getElementById('form-status');
+            status.style.color = 'yellow';
+            status.innerText = 'Mesajınız gönderiliyor... Lütfen bekleyin.';
+            
+            // Başarılı gönderimden sonra temizleme ve bildirim
+            // Google Forms gönderiminin gerçekleşmesi için kısa bir süre bekleriz.
+            setTimeout(() => {
+                status.style.color = 'var(--accent-color)';
+                status.innerText = 'Mesajınız başarıyla gönderildi! Teşekkür ederiz.';
+                form.reset(); 
+                
+                // Mesajı bir süre sonra gizle
+                setTimeout(() => { status.innerText = ''; }, 5000); 
+            }, 1500); 
+        });
+    }
+    // ANONİM MESAJ FORMU KONTROLÜ SONU
 });
 
 
@@ -148,13 +166,10 @@ function loadGalleryFromSheet() {
         });
 }
 
-// Başlık ayarı kaldırıldığı için başlık kısmı güncellendi
 function filterAndRenderGallery(filterCategory) {
     const container = document.querySelector('.gallery-container');
     container.innerHTML = '';
     
-    // Ana sayfada başlık artık yok, bu yüzden titleElement işlemleri kaldırıldı.
-
     const photosToDisplay = (filterCategory === 'all')
         ? allPhotos
         : allPhotos.filter(p => p.category.toLowerCase() === filterCategory.toLowerCase());
