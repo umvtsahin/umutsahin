@@ -1,9 +1,9 @@
-/* style.css - Umut Şahin Galeri Stilleri */
+/* style.css - Umut Şahin Galeri Stilleri (VSCO Yükleme Animasyonu Eklendi) */
 
 /* Genel Ayarlar ve Fontlar */
 body {
-    font-family: 'Inter', sans-serif; /* Modern ve temiz font */
-    background-color: #f7f7f7; /* Hafif krem veya açık gri (VSCO tarzı) */
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f7f7;
     color: #333;
     margin: 0;
     padding: 0;
@@ -13,16 +13,16 @@ body {
 /* Başlık Alanı */
 header {
     text-align: center;
-    padding: 60px 20px 40px; /* Daha fazla boşluk */
-    border-bottom: 1px solid #eee; /* İnce bir ayırıcı çizgi */
+    padding: 60px 20px 40px;
+    border-bottom: 1px solid #eee;
 }
 
 header h1 {
-    font-family: 'Playfair Display', serif; /* Başlıklar için zarif serif font */
+    font-family: 'Playfair Display', serif;
     font-size: 3em;
     font-weight: 500;
     margin-bottom: 5px;
-    letter-spacing: 2px; /* Hafif aralık */
+    letter-spacing: 2px;
 }
 
 header .tagline {
@@ -34,16 +34,29 @@ header .tagline {
 
 /* Galeri Düzeni: Masonry Grid */
 .gallery-container {
-    column-count: 3; /* Üç sütunlu düzen */
-    column-gap: 20px; /* Fotoğraflar arası boşluk */
+    column-count: 3;
+    column-gap: 20px;
     padding: 40px 30px;
-    max-width: 1200px; /* Maksimum genişlik */
+    max-width: 1200px;
     margin: 0 auto;
 }
 
+/* YÜKLEME ANİMASYONU BAŞLANGIÇ AYARLARI */
 .gallery-item {
     break-inside: avoid;
-    margin-bottom: 20px; /* Her öğe altında boşluk */
+    margin-bottom: 20px;
+    /* Animasyon başlangıç durumu: Görünmez ve hafifçe aşağı kaymış */
+    opacity: 0;
+    transform: translateY(20px); 
+    /* Yumuşak geçiş tanımı */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+}
+
+/* YÜKLEME ANİMASYONU BİTİŞ AYARLARI */
+/* Bu sınıf JavaScript tarafından eklenecektir */
+.gallery-item.loaded {
+    opacity: 1;
+    transform: translateY(0); /* Normal pozisyon */
 }
 
 .gallery-item img {
@@ -53,7 +66,7 @@ header .tagline {
     cursor: pointer;
     transition: transform 0.3s ease, opacity 0.3s ease;
     border-radius: 4px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Çok hafif gölge */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .gallery-item img:hover {
@@ -61,26 +74,29 @@ header .tagline {
     transform: scale(1.01);
 }
 
-/* Lightbox Stili */
+/* Lightbox Stili (Değişmedi) */
 .lightbox {
     display: none;
     position: fixed;
-    z-index: 1000; /* Her zaman en üstte */
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.95); /* Çok koyu arka plan */
+    background-color: rgba(0, 0, 0, 0.95);
     padding: 20px;
     box-sizing: border-box;
+    justify-content: center; /* Lightbox içeriğini ortalar */
+    align-items: center; 
 }
 
+/* ... Lightbox stilleri devam eder ... */
 .lightbox-content {
     margin: 40px auto;
     display: block;
     max-width: 90%;
-    max-height: 85vh; /* Ekran yüksekliğinin %85'i */
+    max-height: 85vh;
     object-fit: contain;
 }
 
@@ -90,7 +106,7 @@ header .tagline {
     right: 30px;
     color: #fff;
     font-size: 50px;
-    font-weight: lighter; /* Daha ince x işareti */
+    font-weight: lighter;
     transition: 0.3s;
     cursor: pointer;
 }
@@ -124,14 +140,14 @@ header .tagline {
         font-size: 2em;
     }
     .gallery-container {
-        column-count: 2; /* Daha küçük ekranlarda iki sütun */
+        column-count: 2;
         padding: 20px 10px;
     }
 }
 
 @media (max-width: 480px) {
     .gallery-container {
-        column-count: 1; /* Çok küçük ekranlarda tek sütun */
+        column-count: 1;
     }
     .lightbox-content {
         max-width: 95%;
