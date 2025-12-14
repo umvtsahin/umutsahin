@@ -71,6 +71,7 @@ function closeLightbox() {
 }
 
 // Kapatma butonuna tıklandığında Lightbox'ı kapat
+const closeBtn = document.querySelector('.close-btn');
 closeBtn.onclick = function() {
     closeLightbox();
 }
