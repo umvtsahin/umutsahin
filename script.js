@@ -36,7 +36,6 @@ document.addEventListener('click', function handleFirstInteraction() {
         player.unMute(); 
         isMuted = false;
         
-        // İlk tıklamada sesi açtıktan sonra ikonu da açığa çevir
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
     }
     document.removeEventListener('click', handleFirstInteraction);
@@ -56,7 +55,7 @@ function toggleMute() {
 }
 
 
-// 3. SİDEBAR VE SAYFA NAVİGASYONU (BUTON GEÇİŞİ DÜZELTİLDİ)
+// 3. SİDEBAR VE SAYFA NAVİGASYONU
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const toggleButton = document.getElementById('sidebar-toggle');
@@ -67,14 +66,10 @@ function toggleSidebar() {
 
     // Sidebar açılıyorsa (open sınıfı varsa)
     if (sidebar.classList.contains('open')) {
-        // 3 çizgiyi (toggleButton) gizle
         toggleButton.classList.add('hidden');
-        // Müzik butonunu da gizle (menüden erişilmesin)
         musicButton.classList.add('hidden');
     } else {
-        // 3 çizgiyi (toggleButton) göster
         toggleButton.classList.remove('hidden');
-        // Müzik butonunu göster
         musicButton.classList.remove('hidden');
     }
 }
@@ -94,13 +89,17 @@ function navigate(pageId) {
 
 // 4. GALERİ YÜKLEME VE FİLTRELEME
 document.addEventListener("DOMContentLoaded", function() {
-    // Açılış Animasyonu (Intro ekranı hemen kalkıyor)
+    
+    // YENİ DÜZENLEME: Sayfa yüklenir yüklenmez Ana Sayfayı aktif et.
+    navigate('home-page'); 
+
+    // Açılış Animasyonu (Intro ekranı daha hızlı kalkıyor)
     setTimeout(function() {
         document.getElementById('intro-screen').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('intro-screen').style.display = 'none';
-        }, 1000); 
-    }, 500); // Daha hızlı geçiş
+        }, 500); // 0.5 saniye sonra display: none
+    }, 100); // 0.1 saniye sonra opacity azaltmaya başla
 
     loadGalleryFromSheet();
 });
@@ -183,7 +182,7 @@ function buildCategoryList() {
         e.preventDefault();
         filterAndRenderGallery('all'); 
         navigate('home-page'); 
-        toggleSidebar(); // Menüden dönüşte sidebar'ı kapat
+        toggleSidebar(); 
     };
     allItem.appendChild(allLink);
     list.appendChild(allItem);
@@ -197,7 +196,7 @@ function buildCategoryList() {
             e.preventDefault();
             filterAndRenderGallery(cat); 
             navigate('home-page');
-            toggleSidebar(); // Menüden dönüşte sidebar'ı kapat
+            toggleSidebar(); 
         };
         listItem.appendChild(link);
         list.appendChild(listItem);
