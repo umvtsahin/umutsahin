@@ -1,91 +1,151 @@
-// script.js - Lightbox, Yükleme Animasyonu ve Kar Yağışı Fonksiyonları
+// script.js - Dinamik Galeri, Kar ve Açılış Animasyonu
 
-// Lightbox elementlerini seçelim
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-image');
-const lightboxDesc = document.getElementById('lightbox-description');
-const lightboxDate = document.getElementById('lightbox-date');
-const closeBtn = document.querySelector('.close-btn');
+// 1. YAPILANDIRMA (SADECE BURASI GÜNCELLENDİ)
+const SHEETS_ID = '1evrCEz6RLZ-NCjs2rsrm31RPfBLo0hcpEHHhwTMvTfk'; // Senin Google Sheets ID'n
+const YOUTUBE_VIDEO_ID = 'sF80I-TQiW0'; // Müzik ID'si
 
-// =========================================================
-// YÜKLEME ANİMASYONU (VSCO Tarzı Fade-In)
-// =========================================================
-document.addEventListener("DOMContentLoaded", function() {
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    
-    // Sayfa yüklendikten sonra, her bir fotoğrafı kademeli olarak görünür yap
-    galleryItems.forEach((item, index) => {
-        // 100ms başlangıç gecikmesi + her öğe için 100ms ek gecikme
-        setTimeout(() => {
-            item.classList.add('loaded');
-        }, 100 + (index * 100)); 
+// 2. YOUTUBE API MÜZİK KONTROLÜ
+let player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': YOUTUBE_VIDEO_ID, 'mute': 1 }, 
+        events: { 'onReady': onPlayerReady }
     });
+}
+
+function onPlayerReady(event) {
+    // Müziği sessiz olarak başlatır, böylece tarayıcı engellemez.
+    event.target.playVideo();
+}
+
+
+// 3. GALERİ YÜKLEME VE AÇILIŞ ANIMASYONU
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Açılış Ekranını Kaldır
+    setTimeout(function() {
+        document.getElementById('intro-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('intro-screen').style.display = 'none';
+        }, 1500);
+    }, 1500);
+
+    // 2. Dinamik Galeriyi Yükle
+    loadGalleryFromSheet();
 });
 
-// =========================================================
-// KAR YAĞIŞI OLUŞTURUCU FONKSİYONU
-// =========================================================
-function createSnowflake() {
-    const snowContainer = document.getElementById('snow-container');
-    const snowflake = document.createElement('div');
-    snowflake.className = 'snowflake';
-    snowflake.innerHTML = '&#10052;'; // Kar tanesi ikonu (❄)
 
-    // Rastgele başlangıç pozisyonu, büyüklük ve süre ayarları
-    snowflake.style.left = Math.random() * 100 + 'vw';
-    snowflake.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10 saniye
-    snowflake.style.fontSize = Math.random() * 0.8 + 0.8 + 'em'; // 0.8-1.6em
-    
-    snowContainer.appendChild(snowflake);
+function loadGalleryFromSheet() {
+    // Google Sheets verisini JSON formatında çekme URL'si
+    const sheetURL = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/gviz/tq?tqx=out:json&gid=0`;
+    const container = document.querySelector('.gallery-container');
 
-    // Belli bir süre sonra kar tanesini DOM'dan kaldır (performans için)
-    setTimeout(() => {
-        snowflake.remove();
-    }, 10000); // 10 saniye sonra kaldır
+    fetch(sheetURL)
+        .then(res => res.text())
+        .then(text => {
+            // Gelen metinden sadece JSON kısmını ayıkla
+            const jsonText = text.substring(text.indexOf("(") + 1, text.lastIndexOf(")"));
+            const data = JSON.parse(jsonText);
+            
+            // Satırları işle (İlk satır başlık olduğu için 1'den başlar)
+            data.table.rows.slice(1).forEach((row, index) => {
+                try {
+                    // Verileri küçük harfli sütun başlıklarına göre çek
+                    const url = row.c[0] ? row.c[0].v : '';
+                    const description = row.c[1] ? row.c[1].v : 'Açıklama yok.';
+                    const date = row.c[2] ? row.c[2].v : 'Tarih belirtilmemiş.';
+
+                    if (url) {
+                        const item = document.createElement('div');
+                        item.className = 'gallery-item';
+                        item.innerHTML = `
+                            <img src="${url}" 
+                                 alt="${description}" 
+                                 data-description="${description}" 
+                                 data-date="${date}" 
+                                 onclick="openLightbox(this)">
+                        `;
+                        container.appendChild(item);
+
+                        // Animasyonu sırayla başlat
+                        setTimeout(() => { item.classList.add('show'); }, 1800 + (index * 200)); 
+                    }
+                } catch (e) {
+                    console.error("Hata: Satır işlenemedi.", row, e);
+                }
+            });
+        })
+        .catch(err => {
+            console.error("Veri yüklenemedi. Web'de Yayımla ayarını ve ID'yi kontrol edin.", err);
+        });
 }
 
-// Her 100 milisaniyede bir yeni kar tanesi oluştur
-setInterval(createSnowflake, 100);
 
-
-// =========================================================
-// LIGHTBOX FONKSİYONLARI
-// =========================================================
-
-function openLightbox(imgElement) {
-    const src = imgElement.src;
-    const description = imgElement.getAttribute('data-description') || 'Açıklama yok.';
-    const date = imgElement.getAttribute('data-date') || 'Tarih belirtilmemiş.';
-
-    lightboxImg.src = src;
-    lightboxDesc.textContent = description;
-    lightboxDate.textContent = 'Çekim Tarihi: ' + date;
-
-    lightbox.style.display = "flex"; 
-    document.body.style.overflow = "hidden"; 
+// 4. GELİŞMİŞ KAR YAĞIŞI (Canvas)
+const canvas = document.getElementById('snow-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
+window.addEventListener('resize', resize);
+resize();
 
-function closeLightbox() {
-    lightbox.style.display = "none";
-    document.body.style.overflow = "auto";
-}
-
-// Kapatma butonuna tıklandığında Lightbox'ı kapat
-const closeBtn = document.querySelector('.close-btn');
-closeBtn.onclick = function() {
-    closeLightbox();
-}
-
-// Kullanıcı pencerenin dışına tıkladığında Lightbox'ı kapat
-window.onclick = function(event) {
-    if (event.target === lightbox) {
-        closeLightbox();
+class Snowflake {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speed = Math.random() * 1 + 0.5;
+        this.velX = Math.random() * 0.5 - 0.25;
+    }
+    update() {
+        this.y += this.speed;
+        this.x += this.velX;
+        if (this.y > canvas.height) { this.y = -5; this.x = Math.random() * canvas.width; }
+    }
+    draw() {
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
+for (let i = 0; i < 150; i++) { particles.push(new Snowflake()); }
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+}
+animate();
 
-// Esc tuşuna basıldığında Lightbox'ı kapat
+
+// 5. LIGHTBOX FONKSİYONLARI
+function openLightbox(img) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-image').src = img.src;
+    document.getElementById('lightbox-description').innerText = img.dataset.description;
+    document.getElementById('lightbox-date').innerText = img.dataset.date;
+    lb.style.display = 'flex';
+    document.body.style.overflow = "hidden";
+}
+
+document.querySelector('.close-btn').onclick = () => {
+    document.getElementById('lightbox').style.display = 'none';
+    document.body.style.overflow = "auto";
+}
+window.onclick = function(event) {
+    if (event.target === document.getElementById('lightbox')) {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = "auto";
+    }
+}
 document.onkeydown = function(e) {
     if (e.key === "Escape") {
-        closeLightbox();
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = "auto";
     }
 };
