@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umut Şahin Galeri</title>
+    <title>Umut Şahin Photography</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -12,9 +13,23 @@
     <div id="intro-screen"></div>
     <canvas id="snow-canvas"></canvas> 
     
-    <header>
-        <h1 class="small-title">U.Ş.</h1> 
-    </header>
+    <button id="music-toggle" class="music-hidden" onclick="toggleMute()">
+        <i class="fas fa-volume-mute"></i>
+    </button>
+
+    <button id="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h3>UMUT ŞAHİN</h3>
+            <button onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+        </div>
+        <nav>
+            <a href="#" onclick="navigate('home-page'); toggleSidebar();"><i class="fas fa-home"></i> Ana Sayfa</a>
+            <a href="#" onclick="navigate('categories-page'); toggleSidebar();"><i class="fas fa-grip-lines"></i> Kategoriler</a>
+            <a href="#" onclick="navigate('about-page'); toggleSidebar();"><i class="fas fa-question-circle"></i> İletişim / Hakkında</a>
+        </nav>
+    </aside>
 
     <div id="content-wrapper">
         
@@ -26,24 +41,19 @@
 
         <section id="about-page" class="page">
             <div class="message-box">
-                <h2>Gizemli Köşe</h2>
-                <p>Yakında burası çok karışık ve ilgi çekici olacak. Şimdilik biraz sabır... (Yapım Aşamasında)</p>
+                <h2>Yapım Aşamasında</h2>
+                <p>Bu bölüm yakında Umut Şahin'in hikayesi ve iletişim bilgileriyle güncellenecektir.</p>
             </div>
         </section>
 
         <section id="categories-page" class="page">
-            <h2>Kategoriler</h2>
+            <h2>Kategorileri Keşfet</h2>
             <ul id="category-list">
                 </ul>
         </section>
 
-    </div> <footer id="nav-bar">
-        <button onclick="navigate('about-page')" title="Yapım Aşamasında">❓</button>
-        <button onclick="navigate('home-page')" title="Ana Sayfa">🏠</button>
-        <button onclick="navigate('categories-page')" title="Kategoriler">☰</button>
-    </footer>
+    </div> <div id="player"></div>
 
-    <div id="player"></div>
     <div id="lightbox" class="lightbox">
         <span class="close-btn">&times;</span>
         <img id="lightbox-image" class="lightbox-content">
