@@ -1,3 +1,8 @@
+---
+
+### 1. 📄 `index.html` (Anonim Form Entegre Edildi)
+
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -6,8 +11,8 @@
     <title>Umut Şahin Galeri | Mobil Uygulama</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css)">
+    <link href="[https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap](https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap)" rel="stylesheet">
 </head>
 <body>
 
@@ -28,7 +33,7 @@
         <nav>
             <a href="#" onclick="navigate('home-page'); toggleSidebar();"><i class="fas fa-home"></i> Ana Sayfa</a>
             <a href="#" onclick="navigate('categories-page'); toggleSidebar();"><i class="fas fa-grip-lines"></i> Kategoriler</a>
-            <a href="#" onclick="navigate('about-page'); toggleSidebar();"><i class="fas fa-question-circle"></i> Hakkında/İletişim</a>
+            <a href="#" onclick="navigate('about-page'); toggleSidebar();"><i class="fas fa-question-circle"></i> Mesaj Bırak</a>
         </nav>
     </aside>
 
@@ -41,8 +46,32 @@
 
         <section id="about-page" class="page">
             <div class="message-box">
-                <h2>Yapım Aşamasında</h2>
-                <p>Yakında burası Umut Şahin'in hikayesi ve iletişim bilgileriyle güncellenecek.</p>
+                <h2>Anonim Mesaj Kutusu</h2>
+                <p>Umut Şahin'e anonim olarak bir not veya geri bildirim bırakabilirsiniz. Tüm mesajlar gizlidir ve sadece Umut tarafından görülecektir.</p>
+                
+                <form id="anonymous-message-form" 
+                      action="[https://docs.google.com/forms/d/e/1ndgRpFsTUhth5HHqA9NgDl9KU_nA4QPKRSAeGlU7f10/formResponse](https://docs.google.com/forms/d/e/1ndgRpFsTUhth5HHqA9NgDl9KU_nA4QPKRSAeGlU7f10/formResponse)" 
+                      method="POST" 
+                      target="hidden-iframe">
+                    
+                    <label for="anon-name">Adınız / Takma Adınız (Opsiyonel):</label>
+                    <input type="text" 
+                           id="anon-name" 
+                           name="entry.181396002" 
+                           placeholder="Anonim">
+                    
+                    <label for="anon-message">Mesajınız:</label>
+                    <textarea id="anon-message" 
+                              name="entry.1948787420" 
+                              rows="5" 
+                              required 
+                              placeholder="Geri bildiriminizi veya notunuzu buraya yazın..."></textarea>
+                    
+                    <button type="submit">Mesajı Gönder</button>
+                    <p id="form-status" style="margin-top: 15px;"></p>
+                </form>
+                
+                <iframe id="hidden-iframe" name="hidden-iframe" style="display: none;"></iframe>
             </div>
         </section>
 
@@ -64,6 +93,6 @@
     </div>
     
     <script src="script.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="[https://www.youtube.com/iframe_api](https://www.youtube.com/iframe_api)"></script>
 </body>
 </html>
