@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umut Şahin - Galeri</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>UMUT ŞAHİN</h1>
+        <p class="tagline">Işık ve Sözler</p>
+    </header>
+
+    <main class="gallery-container">
+        <div class="gallery-item">
+            <img src="https://picsum.photos/id/102/600/900" alt="Pencere Kenarındaki Kedi" 
+                 data-description="Pencere kenarındaki kedi. İlk ışıkların düştüğü an." 
+                 data-date="2025/11/20" 
+                 onclick="openLightbox(this)">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://picsum.photos/id/1043/800/600" alt="Göl Manzarası" 
+                 data-description="Ufukta solgun şehir silüeti. Sakin sular ve toprak tonları." 
+                 data-date="2025/12/05" 
+                 onclick="openLightbox(this)">
+        </div>
+    </main>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        <img id="lightbox-image" class="lightbox-content" src="" alt="Büyütülmüş Fotoğraf">
+        <div id="lightbox-details" class="lightbox-details">
+            <p id="lightbox-description"></p>
+            <span id="lightbox-date" class="date-info"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
