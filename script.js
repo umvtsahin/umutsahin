@@ -1,4 +1,4 @@
-// script.js - Mobil Odaklı Galeri Kontrolcüsü (TAM VERSİYON)
+// script.js - Mobil Odaklı Galeri Kontrolcüsü (TAM VE GÜNCELLENMİŞ VERSİYON)
 
 // 1. YAPILANDIRMA
 const SHEETS_ID = '1evrCEz6RLZ-NCjs2rsrm31RPfBLo0hcpEHHhwTMvTfk'; 
@@ -20,7 +20,7 @@ function onYouTubeIframeAPIReady() {
             'loop': 1, 
             'playlist': YOUTUBE_VIDEO_ID, 
             'controls': 0, 
-            'mute': 1 // OTOMATİK OYNATMA İÇİN BAŞLANGIÇTA SESSİZ
+            'mute': 1 
         }, 
         events: { 'onReady': onPlayerReady }
     });
@@ -30,29 +30,32 @@ function onPlayerReady(event) {
     event.target.playVideo();
 }
 
-// Kullanıcı sayfayla etkileşime girdiğinde (herhangi bir yere tıkladığında)
+// Kullanıcı sayfayla etkileşime girdiğinde (İlk tıklama)
 document.addEventListener('click', function handleFirstInteraction() {
-    if (player && player.isMuted() && isMuted) {
-        player.unMute();
+    if (player && isMuted) {
+        // Kontrolü JavaScript'e almadan önce player'ı mute durumundan çıkar
+        player.unMute(); 
         isMuted = false;
         
         // Müzik kontrol butonunu göster
         document.getElementById('music-toggle').classList.remove('music-hidden');
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
     }
-    // İlk etkileşimden sonra dinleyiciyi kaldır
     document.removeEventListener('click', handleFirstInteraction);
 });
 
 function toggleMute() {
-    if (player.isMuted()) {
-        player.mute();
-        isMuted = true;
-        document.querySelector('#music-toggle i').className = 'fas fa-volume-mute';
-    } else {
+    // Ses kapalıysa (mute durumundaysa) aç
+    if (isMuted) {
         player.unMute();
         isMuted = false;
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
+    } 
+    // Ses açıksa (unmute durumundaysa) kapat
+    else {
+        player.mute();
+        isMuted = true;
+        document.querySelector('#music-toggle i').className = 'fas fa-volume-mute';
     }
 }
 
@@ -67,7 +70,7 @@ function navigate(pageId) {
         page.classList.remove('active');
     });
     document.getElementById(pageId).classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Sayfa geçişinde üste kaydır
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
 
     if (pageId === 'categories-page') {
         buildCategoryList();
