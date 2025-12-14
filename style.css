@@ -1,0 +1,140 @@
+/* style.css - Umut Şahin Galeri Stilleri */
+
+/* Genel Ayarlar ve Fontlar */
+body {
+    font-family: 'Inter', sans-serif; /* Modern ve temiz font */
+    background-color: #f7f7f7; /* Hafif krem veya açık gri (VSCO tarzı) */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Başlık Alanı */
+header {
+    text-align: center;
+    padding: 60px 20px 40px; /* Daha fazla boşluk */
+    border-bottom: 1px solid #eee; /* İnce bir ayırıcı çizgi */
+}
+
+header h1 {
+    font-family: 'Playfair Display', serif; /* Başlıklar için zarif serif font */
+    font-size: 3em;
+    font-weight: 500;
+    margin-bottom: 5px;
+    letter-spacing: 2px; /* Hafif aralık */
+}
+
+header .tagline {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Galeri Düzeni: Masonry Grid */
+.gallery-container {
+    column-count: 3; /* Üç sütunlu düzen */
+    column-gap: 20px; /* Fotoğraflar arası boşluk */
+    padding: 40px 30px;
+    max-width: 1200px; /* Maksimum genişlik */
+    margin: 0 auto;
+}
+
+.gallery-item {
+    break-inside: avoid;
+    margin-bottom: 20px; /* Her öğe altında boşluk */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius: 4px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Çok hafif gölge */
+}
+
+.gallery-item img:hover {
+    opacity: 0.95;
+    transform: scale(1.01);
+}
+
+/* Lightbox Stili */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Her zaman en üstte */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.95); /* Çok koyu arka plan */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.lightbox-content {
+    margin: 40px auto;
+    display: block;
+    max-width: 90%;
+    max-height: 85vh; /* Ekran yüksekliğinin %85'i */
+    object-fit: contain;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    color: #fff;
+    font-size: 50px;
+    font-weight: lighter; /* Daha ince x işareti */
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #bbb;
+}
+
+.lightbox-details {
+    text-align: center;
+    color: #eee;
+    padding: 10px 0;
+    margin: 10px auto 0;
+    max-width: 80%;
+}
+
+.lightbox-details p {
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+.date-info {
+    font-size: 0.85em;
+    color: #999;
+}
+
+/* Mobil Uyum (Responsive Tasarım) */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    .gallery-container {
+        column-count: 2; /* Daha küçük ekranlarda iki sütun */
+        padding: 20px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-container {
+        column-count: 1; /* Çok küçük ekranlarda tek sütun */
+    }
+    .lightbox-content {
+        max-width: 95%;
+        margin-top: 20px;
+    }
+}
