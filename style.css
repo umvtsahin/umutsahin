@@ -1,3 +1,4 @@
+/* style.css - Önceki hali geçerlidir. */
 :root {
     --primary-color: #0d0d0d;
     --secondary-color: #f0f0f0;
@@ -199,7 +200,7 @@ h2 { text-align: center; margin: 30px 0 30px; font-size: 1.8rem; font-family: 'P
 }
 .close-btn:hover { color: #ccc; }
 
-/* MESAJ KUTUSU STİLLERİ (YENİ EKLENEN) */
+/* MESAJ KUTUSU STİLLERİ */
 .message-box {
     max-width: 600px;
     margin: 0 auto;
