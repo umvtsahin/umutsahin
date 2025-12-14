@@ -1,81 +1,122 @@
+:root {
+    --primary-color: #0d0d0d;
+    --secondary-color: #f0f0f0;
+    --accent-color: #4CAF50; /* Yeşil aksan rengi */
+}
+
 body {
-    background-color: #0a0a0a;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     font-family: 'Inter', sans-serif;
     margin: 0;
     overflow-x: hidden;
-    padding-bottom: 60px; /* Mobil navigasyon barı için boşluk */
 }
 
-/* YENİ: Başlık Stil Ayarı */
-header { text-align: center; padding: 40px 20px 20px; } /* Daha az padding */
-header h1 { 
-    font-family: 'Playfair Display', serif; 
-    font-size: 2rem; /* Boyut küçüldü */
-    letter-spacing: 3px; 
-    margin: 0;
-}
-h2 { text-align: center; margin: 30px 0; font-size: 1.8rem; } /* Kategori başlıkları */
-
-/* SAYFA YÖNETİMİ (Değişmedi) */
+/* GENEL STİLLER */
 .page {
-    max-width: 1200px; margin: 0 auto; padding: 10px;
+    max-width: 1200px; margin: 0 auto; padding: 20px;
     display: none; opacity: 0; transform: translateY(10px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    padding-top: 80px; /* Sidebar/Toggle butonları için boşluk */
 }
 .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-/* KAR KANVASI (Değişmedi) */
+h2 { text-align: center; margin: 30px 0 50px; font-size: 2rem; font-family: 'Playfair Display', serif; }
+
+/* AÇILIŞ VE KAR (Değişmedi) */
+#intro-screen { /* ... */ z-index: 9999; }
 #snow-canvas { /* ... */ z-index: 100; }
 
-/* MASONRY GRID (Mobil için optimizasyon) */
+/* YENİ: SİDEBAR VE BUTONLAR */
+#sidebar-toggle, #music-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+    border: none;
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+#music-toggle { right: 75px; } /* Müziği yana kaydır */
+#music-toggle.music-hidden { display: none; } /* Başlangıçta gizli */
+
+#sidebar {
+    position: fixed;
+    top: 0; right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #151515;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 900;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+#sidebar.open { transform: translateX(0); }
+
+.sidebar-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 30px;
+}
+.sidebar-header h3 { font-family: 'Playfair Display', serif; margin: 0; font-size: 1.8rem; }
+.sidebar-header button {
+    background: none; border: none; color: var(--secondary-color);
+    font-size: 1.5rem; cursor: pointer;
+}
+
+#sidebar nav a {
+    display: block;
+    color: var(--secondary-color);
+    text-decoration: none;
+    padding: 15px 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+#sidebar nav a:hover {
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+}
+#sidebar nav a i { margin-right: 15px; width: 20px; text-align: center; }
+
+
+/* MASONRY GRID */
 .gallery-container {
-    column-count: 2; /* Mobil varsayılanı 2 sütun */
-    column-gap: 10px; /* Mobil için boşluk azaltıldı */
-    padding: 5px;
+    column-count: 2; column-gap: 15px; padding: 0 10px;
 }
 @media (min-width: 768px) {
     .gallery-container {
-        column-count: 3; /* Tablet ve masaüstü için 3 sütun */
-        column-gap: 20px;
-        padding: 20px;
+        column-count: 3; column-gap: 20px; padding: 0 20px;
     }
 }
-
-.gallery-item { margin-bottom: 10px; break-inside: avoid; /* ... */ }
-.gallery-item.show { /* ... */ }
-.gallery-item img { /* ... */ filter: grayscale(30%); transition: 0.5s; }
-.gallery-item img:hover { /* ... */ }
-
-/* ALT NAVİGASYON BARI (İkon Stilleri) */
-#nav-bar {
-    position: fixed; bottom: 0; left: 0; width: 100%;
-    background-color: #1a1a1a; padding: 5px 0; 
-    display: flex; justify-content: space-around; z-index: 500;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-    height: 50px; /* Yükseklik sabitlendi */
+.gallery-item { margin-bottom: 15px; break-inside: avoid; opacity: 0; transition: 1s all ease; }
+.gallery-item.show { opacity: 1; transform: translateY(0); }
+.gallery-item img {
+    width: 100%; border-radius: 4px; cursor: pointer;
+    filter: brightness(0.8); transition: 0.5s;
 }
+.gallery-item img:hover { filter: brightness(1); transform: scale(1.01); }
 
-#nav-bar button {
-    background: none; border: none; color: #fff;
-    font-size: 2rem; /* İkonlar büyütüldü */
-    line-height: 1;
-    cursor: pointer; padding: 0 15px;
-    transition: color 0.3s;
-}
-#nav-bar button:hover { color: #888; }
-
-/* KATEGORİ VE YAPIM AŞAMASINDA STİLLERİ */
+/* KATEGORİ LİSTESİ */
 #category-list { list-style: none; padding: 0; text-align: center; }
-#category-list li { margin: 10px 0; }
+#category-list li { margin: 15px 0; }
 #category-list a {
-    color: #fff; text-decoration: none; font-size: 1.3rem;
+    color: var(--secondary-color); text-decoration: none; font-size: 1.6rem;
     display: inline-block; transition: color 0.3s, letter-spacing 0.3s;
+    font-family: 'Playfair Display', serif;
 }
-#category-list a:hover { color: #888; letter-spacing: 2px; }
+#category-list a:hover { color: var(--accent-color); letter-spacing: 1px; }
 
+/* MESAJ KUTUSU */
 .message-box {
     text-align: center; padding: 100px 20px;
-    border: 1px solid #333; border-radius: 10px; margin-top: 30px;
+    border: 1px solid #333; border-radius: 10px; margin-top: 50px;
 }
-.message-box h2 { font-size: 2rem; }
+.message-box h2 { font-size: 2.5rem; }
