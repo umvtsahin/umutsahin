@@ -8,6 +8,7 @@ let allPhotos = [];
 let uniqueCategories = new Set();
 let player;
 let isMuted = true;
+let galleryLoaded = false; // Galerinin sadece bir kez yüklenmesini kontrol etmek için
 
 // 2. MÜZİK KONTROLÜ VE SORUN GİDERME
 function onYouTubeIframeAPIReady() {
@@ -32,8 +33,8 @@ function onPlayerReady(event) {
 
 // player.unMute is not a function HATASI ÇÖZÜLDÜ
 document.addEventListener('click', function handleFirstInteraction() {
-    // Player'ın varlığını ve durumunun oynatılmaya uygun olduğunu kontrol et (CUED: API'dan sonraki ilk hazır olma durumu)
-    if (player && isMuted && typeof player.unMute === 'function' && player.getPlayerState() === YT.PlayerState.CUED) {
+    // Player'ın varlığını ve durumunun oynatılmaya uygun olduğunu kontrol et
+    if (player && isMuted && typeof player.unMute === 'function') {
         player.unMute(); 
         isMuted = false;
         
@@ -44,7 +45,6 @@ document.addEventListener('click', function handleFirstInteraction() {
 });
 
 function toggleMute() {
-    // Fonksiyon çağrılmadan önce player'ın hazır olduğunu garanti ediyoruz.
     if (!player || typeof player.unMute !== 'function') return; 
 
     if (isMuted) {
@@ -93,18 +93,24 @@ function navigate(pageId) {
 // 4. GALERİ YÜKLEME VE AÇILIŞ DÜZELTİLDİ
 document.addEventListener("DOMContentLoaded", function() {
     
-    // Açılış Sorunu Çözümü: Sayfa yüklenir yüklenmez Ana Sayfayı aktif et.
-    navigate('home-page'); 
+    // Açılış Sorunu Çözümü: Intro ekranı hemen ve gecikmesiz kalkıyor
+    const introScreen = document.getElementById('intro-screen');
+    introScreen.style.transition = 'opacity 0.1s ease-out'; // Anında geçiş
+    introScreen.style.opacity = '0';
+    setTimeout(() => {
+        introScreen.style.display = 'none';
+        
+        // Galerinin aktif olduğundan emin ol
+        navigate('home-page'); 
+        
+        // Lightbox'ın açık kalma ihtimaline karşı kontrol
+        closeLightbox(); 
 
-    // Açılış Animasyonu (Intro ekranı hemen kalkıyor)
-    setTimeout(function() {
-        document.getElementById('intro-screen').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('intro-screen').style.display = 'none';
-        }, 500); // 0.5 saniye sonra display: none
-    }, 100); // 0.1 saniye sonra opacity azaltmaya başla
+    }, 100); 
 
-    loadGalleryFromSheet();
+    if (!galleryLoaded) {
+        loadGalleryFromSheet();
+    }
 });
 
 
@@ -135,22 +141,19 @@ function loadGalleryFromSheet() {
             });
 
             filterAndRenderGallery('all');
+            galleryLoaded = true;
         })
         .catch(err => {
             console.error("Veri yüklenemedi. Web'de Yayımla ayarını ve ID'yi kontrol edin.", err);
         });
 }
 
+// Başlık ayarı kaldırıldığı için başlık kısmı güncellendi
 function filterAndRenderGallery(filterCategory) {
     const container = document.querySelector('.gallery-container');
     container.innerHTML = '';
     
-    const titleElement = document.getElementById('current-category-title');
-    if (filterCategory === 'all') {
-        titleElement.innerText = 'Tüm Fotoğraflar';
-    } else {
-        titleElement.innerText = filterCategory.charAt(0).toUpperCase() + filterCategory.slice(1);
-    }
+    // Ana sayfada başlık artık yok, bu yüzden titleElement işlemleri kaldırıldı.
 
     const photosToDisplay = (filterCategory === 'all')
         ? allPhotos
