@@ -1,4 +1,4 @@
-// script.js - Mobil Odaklı Galeri Kontrolcüsü (TAM VE GÜNCELLENMİŞ VERSİYON)
+// script.js - Mobil Odaklı Galeri Kontrolcüsü (TAM VE SON VERSİYON)
 
 // 1. YAPILANDIRMA
 const SHEETS_ID = '1evrCEz6RLZ-NCjs2rsrm31RPfBLo0hcpEHHhwTMvTfk'; 
@@ -32,7 +32,6 @@ function onPlayerReady(event) {
 
 // Kullanıcı sayfayla etkileşime girdiğinde (İlk tıklama)
 document.addEventListener('click', function handleFirstInteraction() {
-    // isMuted true ise, yani kullanıcı tıklayıp sesi açmak isterse
     if (player && isMuted) {
         player.unMute(); 
         isMuted = false;
@@ -40,18 +39,15 @@ document.addEventListener('click', function handleFirstInteraction() {
         // İlk tıklamada sesi açtıktan sonra ikonu da açığa çevir
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
     }
-    // İlk etkileşimden sonra dinleyiciyi kaldır
     document.removeEventListener('click', handleFirstInteraction);
 });
 
 function toggleMute() {
-    // Ses kapalıysa (mute durumundaysa) aç
     if (isMuted) {
         player.unMute();
         isMuted = false;
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
     } 
-    // Ses açıksa (unmute durumundaysa) kapat
     else {
         player.mute();
         isMuted = true;
@@ -60,9 +56,27 @@ function toggleMute() {
 }
 
 
-// 3. SİDEBAR VE SAYFA NAVİGASYONU
+// 3. SİDEBAR VE SAYFA NAVİGASYONU (BUTON GEÇİŞİ DÜZELTİLDİ)
 function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
+    const sidebar = document.getElementById('sidebar');
+    const toggleButton = document.getElementById('sidebar-toggle');
+    const musicButton = document.getElementById('music-toggle');
+
+    // Sidebar'ı aç/kapat
+    sidebar.classList.toggle('open');
+
+    // Sidebar açılıyorsa (open sınıfı varsa)
+    if (sidebar.classList.contains('open')) {
+        // 3 çizgiyi (toggleButton) gizle
+        toggleButton.classList.add('hidden');
+        // Müzik butonunu da gizle (menüden erişilmesin)
+        musicButton.classList.add('hidden');
+    } else {
+        // 3 çizgiyi (toggleButton) göster
+        toggleButton.classList.remove('hidden');
+        // Müzik butonunu göster
+        musicButton.classList.remove('hidden');
+    }
 }
 
 function navigate(pageId) {
@@ -80,13 +94,13 @@ function navigate(pageId) {
 
 // 4. GALERİ YÜKLEME VE FİLTRELEME
 document.addEventListener("DOMContentLoaded", function() {
-    // Açılış Animasyonu
+    // Açılış Animasyonu (Intro ekranı hemen kalkıyor)
     setTimeout(function() {
         document.getElementById('intro-screen').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('intro-screen').style.display = 'none';
         }, 1000); 
-    }, 1000);
+    }, 500); // Daha hızlı geçiş
 
     loadGalleryFromSheet();
 });
@@ -169,6 +183,7 @@ function buildCategoryList() {
         e.preventDefault();
         filterAndRenderGallery('all'); 
         navigate('home-page'); 
+        toggleSidebar(); // Menüden dönüşte sidebar'ı kapat
     };
     allItem.appendChild(allLink);
     list.appendChild(allItem);
@@ -182,7 +197,7 @@ function buildCategoryList() {
             e.preventDefault();
             filterAndRenderGallery(cat); 
             navigate('home-page');
-            toggleSidebar(); // Filtrelemeden sonra sidebar'ı kapat
+            toggleSidebar(); // Menüden dönüşte sidebar'ı kapat
         };
         listItem.appendChild(link);
         list.appendChild(listItem);
@@ -236,7 +251,7 @@ function openLightbox(img) {
     document.getElementById('lightbox-image').src = img.src;
     document.getElementById('lightbox-description').innerText = img.dataset.description;
     document.getElementById('lightbox-date').innerText = img.dataset.date;
-    lb.style.display = 'grid'; // display: grid olarak ayarlandı
+    lb.style.display = 'grid'; 
     document.body.style.overflow = "hidden";
 }
 
@@ -249,7 +264,7 @@ function closeLightbox() {
 // Kapatma butonu
 document.querySelector('.close-btn').onclick = closeLightbox;
 
-// DÜZELTİLDİ: Arka plana tıklama ile kapatma
+// Arka plana ve Escape'e tıklayarak kapatma
 window.onclick = function(event) {
     if (event.target === document.getElementById('lightbox')) {
         closeLightbox();
