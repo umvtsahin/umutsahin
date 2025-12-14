@@ -39,7 +39,7 @@
                  data-date="2025/12/12" 
                  onclick="openLightbox(this)">
         </div>
-
+        
         </main>
 
     <div id="lightbox" class="lightbox">
@@ -51,13 +51,12 @@
         </div>
     </div>
 
-    <div id="audio-bar">
-        <p>Kış Rüyası</p>
-        <audio id="site-audio" controls loop>
-            <source src="[ŞARKINIZIN DİREKT MP3 URL'Sİ]" type="audio/mpeg"> 
-            Tarayıcınız ses dosyasını desteklemiyor.
-        </audio>
-    </div>
+    <iframe id="youtube-audio-player" 
+        width="0" height="0"
+        src="https://www.youtube.com/embed/sF80I-TQiW0?autoplay=1&loop=1&playlist=sF80I-TQiW0&controls=0&modestbranding=1" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen>
+    </iframe>
 
     <script src="script.js"></script>
 </body>
