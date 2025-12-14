@@ -1,8 +1,8 @@
-// script.js - Dinamik Galeri, Kar, Navigasyon, Filtreleme ve Müzik Kontrolü
+// script.js - Mobil Odaklı Galeri Kontrolcüsü (TAM VERSİYON)
 
 // 1. YAPILANDIRMA
 const SHEETS_ID = '1evrCEz6RLZ-NCjs2rsrm31RPfBLo0hcpEHHhwTMvTfk'; 
-const YOUTUBE_VIDEO_ID = 'sF80I-TQiW0'; // Müzik ID'si
+const YOUTUBE_VIDEO_ID = 'sF80I-TQiW0'; 
 
 let allPhotos = [];
 let uniqueCategories = new Set();
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('intro-screen').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('intro-screen').style.display = 'none';
-        }, 1000); // Daha hızlı açılış
+        }, 1000); 
     }, 1000);
 
     loadGalleryFromSheet();
