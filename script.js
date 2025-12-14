@@ -30,18 +30,23 @@ function onPlayerReady(event) {
     event.target.playVideo();
 }
 
-// Kullanıcı sayfayla etkileşime girdiğinde (İlk tıklama)
+// player.unMute is not a function HATASI ÇÖZÜLDÜ
 document.addEventListener('click', function handleFirstInteraction() {
-    if (player && isMuted) {
+    // Player'ın varlığını ve durumunun oynatılmaya uygun olduğunu kontrol et (CUED: API'dan sonraki ilk hazır olma durumu)
+    if (player && isMuted && typeof player.unMute === 'function' && player.getPlayerState() === YT.PlayerState.CUED) {
         player.unMute(); 
         isMuted = false;
         
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
     }
+    // Player hazır olmasa bile, ilk etkileşimden sonra dinleyiciyi kaldır
     document.removeEventListener('click', handleFirstInteraction);
 });
 
 function toggleMute() {
+    // Fonksiyon çağrılmadan önce player'ın hazır olduğunu garanti ediyoruz.
+    if (!player || typeof player.unMute !== 'function') return; 
+
     if (isMuted) {
         player.unMute();
         isMuted = false;
@@ -61,10 +66,8 @@ function toggleSidebar() {
     const toggleButton = document.getElementById('sidebar-toggle');
     const musicButton = document.getElementById('music-toggle');
 
-    // Sidebar'ı aç/kapat
     sidebar.classList.toggle('open');
 
-    // Sidebar açılıyorsa (open sınıfı varsa)
     if (sidebar.classList.contains('open')) {
         toggleButton.classList.add('hidden');
         musicButton.classList.add('hidden');
@@ -87,13 +90,13 @@ function navigate(pageId) {
 }
 
 
-// 4. GALERİ YÜKLEME VE FİLTRELEME
+// 4. GALERİ YÜKLEME VE AÇILIŞ DÜZELTİLDİ
 document.addEventListener("DOMContentLoaded", function() {
     
-    // YENİ DÜZENLEME: Sayfa yüklenir yüklenmez Ana Sayfayı aktif et.
+    // Açılış Sorunu Çözümü: Sayfa yüklenir yüklenmez Ana Sayfayı aktif et.
     navigate('home-page'); 
 
-    // Açılış Animasyonu (Intro ekranı daha hızlı kalkıyor)
+    // Açılış Animasyonu (Intro ekranı hemen kalkıyor)
     setTimeout(function() {
         document.getElementById('intro-screen').style.opacity = '0';
         setTimeout(() => {
