@@ -3,28 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umut Şahin - Kış Galerisi</title>
+    <title>Umut Şahin - Galeri & Kategoriler</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="intro-screen">
-        <div class="intro-content">
-            </div>
-    </div>
-
+    <div id="intro-screen"></div>
     <canvas id="snow-canvas"></canvas> 
     
     <header>
         <h1>UMUT ŞAHİN</h1>
-        </header>
+    </header>
 
-    <main class="gallery-container">
-    </main>
+    <div id="content-wrapper">
+        
+        <main id="home-page" class="page active">
+            <h2 id="current-category-title">Tüm Fotoğraflar</h2>
+            <section class="gallery-container masonry-grid">
+                </section>
+        </main>
+
+        <section id="about-page" class="page">
+            <div class="message-box">
+                <h2>Yapım Aşamasında</h2>
+                <p>Yakında burası çok karışık ve ilgi çekici olacak. Şimdilik biraz sabır...</p>
+            </div>
+        </section>
+
+        <section id="categories-page" class="page">
+            <h2>Kategoriler</h2>
+            <ul id="category-list">
+                </ul>
+        </section>
+
+    </div> <footer id="nav-bar">
+        <button onclick="navigate('about-page')">İletişim</button>
+        <button onclick="navigate('home-page')">Ana Sayfa</button>
+        <button onclick="navigate('categories-page')">Kategoriler</button>
+    </footer>
 
     <div id="player"></div>
-
     <div id="lightbox" class="lightbox">
         <span class="close-btn">&times;</span>
         <img id="lightbox-image" class="lightbox-content">
@@ -33,7 +52,7 @@
             <span id="lightbox-date"></span>
         </div>
     </div>
-
+    
     <script src="script.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </body>
