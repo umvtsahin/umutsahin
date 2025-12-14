@@ -32,15 +32,15 @@ function onPlayerReady(event) {
 
 // Kullanıcı sayfayla etkileşime girdiğinde (İlk tıklama)
 document.addEventListener('click', function handleFirstInteraction() {
+    // isMuted true ise, yani kullanıcı tıklayıp sesi açmak isterse
     if (player && isMuted) {
-        // Kontrolü JavaScript'e almadan önce player'ı mute durumundan çıkar
         player.unMute(); 
         isMuted = false;
         
-        // Müzik kontrol butonunu göster
-        document.getElementById('music-toggle').classList.remove('music-hidden');
+        // İlk tıklamada sesi açtıktan sonra ikonu da açığa çevir
         document.querySelector('#music-toggle i').className = 'fas fa-volume-up';
     }
+    // İlk etkileşimden sonra dinleyiciyi kaldır
     document.removeEventListener('click', handleFirstInteraction);
 });
 
@@ -236,23 +236,27 @@ function openLightbox(img) {
     document.getElementById('lightbox-image').src = img.src;
     document.getElementById('lightbox-description').innerText = img.dataset.description;
     document.getElementById('lightbox-date').innerText = img.dataset.date;
-    lb.style.display = 'flex';
+    lb.style.display = 'grid'; // display: grid olarak ayarlandı
     document.body.style.overflow = "hidden";
 }
 
-document.querySelector('.close-btn').onclick = () => {
+// Lightbox Kapatma Fonksiyonu
+function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
     document.body.style.overflow = "auto";
 }
+
+// Kapatma butonu
+document.querySelector('.close-btn').onclick = closeLightbox;
+
+// DÜZELTİLDİ: Arka plana tıklama ile kapatma
 window.onclick = function(event) {
     if (event.target === document.getElementById('lightbox')) {
-        document.getElementById('lightbox').style.display = 'none';
-        document.body.style.overflow = "auto";
+        closeLightbox();
     }
 }
 document.onkeydown = function(e) {
     if (e.key === "Escape") {
-        document.getElementById('lightbox').style.display = 'none';
-        document.body.style.overflow = "auto";
+        closeLightbox();
     }
 };
