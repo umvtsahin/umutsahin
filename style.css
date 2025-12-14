@@ -20,7 +20,7 @@ h2 { text-align: center; margin: 30px 0 30px; font-size: 1.8rem; font-family: 'P
 #intro-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: var(--primary-color); z-index: 9999;
-    transition: opacity 1s ease-out; 
+    transition: opacity 0.5s ease-out; /* Animasyon kısaltıldı */
     opacity: 1; 
 }
 #snow-canvas {
@@ -52,7 +52,6 @@ h2 { text-align: center; margin: 30px 0 30px; font-size: 1.8rem; font-family: 'P
 #sidebar-toggle { left: 20px; z-index: 1000; } 
 #music-toggle { right: 20px; z-index: 1000; }
 
-/* DÜZELTİLDİ: BUTON GİZLEME SINIFI */
 .hidden { 
     opacity: 0 !important; 
     pointer-events: none !important; 
@@ -158,7 +157,7 @@ h2 { text-align: center; margin: 30px 0 30px; font-size: 1.8rem; font-family: 'P
 
 /* LIGHTBOX */
 .lightbox {
-    display: none; /* DÜZELTİLDİ: Başlangıçta gizli olmalı */
+    display: none; 
     position: fixed;
     top:0; left:0; width:100%; height:100%;
     background: rgba(0,0,0,0.95);
