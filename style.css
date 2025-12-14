@@ -1,7 +1,7 @@
 :root {
     --primary-color: #0d0d0d;
     --secondary-color: #f0f0f0;
-    --accent-color: #4CAF50; /* Yeşil aksan rengi */
+    --accent-color: #4CAF50; 
 }
 
 body {
@@ -12,91 +12,72 @@ body {
     overflow-x: hidden;
 }
 
-/* GENEL STİLLER */
+/* YENİ: Başlık/Header'ı Gizle - Galeri Odaklılık */
+header { display: none; } 
+h2 { text-align: center; margin: 30px 0 30px; font-size: 1.8rem; font-family: 'Playfair Display', serif; }
+
+/* 1. KAR YAĞIŞI EFEKTİ DÜZELTMESİ */
+#snow-canvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 101; /* Z-Index artırıldı. Artık fotoğrafların üzerinde yağacak. */
+}
+
+/* SAYFA YÖNETİMİ */
 .page {
-    max-width: 1200px; margin: 0 auto; padding: 20px;
+    max-width: 1200px; margin: 0 auto; padding: 10px;
     display: none; opacity: 0; transform: translateY(10px);
     transition: opacity 0.5s ease, transform 0.5s ease;
-    padding-top: 80px; /* Sidebar/Toggle butonları için boşluk */
+    padding-top: 60px; 
+    position: relative; /* Karın altında kalması için relative eklendi */
+    z-index: 10;
 }
 .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-h2 { text-align: center; margin: 30px 0 50px; font-size: 2rem; font-family: 'Playfair Display', serif; }
 
-/* AÇILIŞ VE KAR (Değişmedi) */
-#intro-screen { /* ... */ z-index: 9999; }
-#snow-canvas { /* ... */ z-index: 100; }
-
-/* YENİ: SİDEBAR VE BUTONLAR */
+/* 2. SİDEBAR VE BUTONLAR (Navigasyon) */
 #sidebar-toggle, #music-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--secondary-color);
-    border: none;
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    cursor: pointer;
-    z-index: 1000;
-    transition: background-color 0.3s;
+    position: fixed; top: 20px;
+    background-color: rgba(255, 255, 255, 0.1); color: var(--secondary-color);
+    border: none; width: 40px; height: 40px; border-radius: 50%;
+    font-size: 1.1rem; cursor: pointer; z-index: 1000; transition: background-color 0.3s;
 }
+#sidebar-toggle { left: 20px; z-index: 1000; } 
+#music-toggle { right: 20px; z-index: 1000; }
+#music-toggle.music-hidden { display: none; } 
 
-#music-toggle { right: 75px; } /* Müziği yana kaydır */
-#music-toggle.music-hidden { display: none; } /* Başlangıçta gizli */
-
-#sidebar {
-    position: fixed;
-    top: 0; right: 0;
-    width: 300px;
-    height: 100%;
-    background-color: #151515;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    z-index: 900;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
-    padding: 20px;
+#sidebar { 
+    position: fixed; top: 0; right: 0; width: 300px; height: 100%;
+    background-color: #151515; transform: translateX(100%); transition: transform 0.3s ease-in-out;
+    z-index: 900; box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5); padding: 20px;
 }
 
 #sidebar.open { transform: translateX(0); }
 
-.sidebar-header {
-    display: flex; justify-content: space-between; align-items: center;
-    border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 30px;
-}
-.sidebar-header h3 { font-family: 'Playfair Display', serif; margin: 0; font-size: 1.8rem; }
-.sidebar-header button {
-    background: none; border: none; color: var(--secondary-color);
-    font-size: 1.5rem; cursor: pointer;
-}
+.sidebar-header { /* ... */ }
+.sidebar-header h3 { /* ... */ }
+.sidebar-header button { /* ... */ }
 
-#sidebar nav a {
-    display: block;
-    color: var(--secondary-color);
-    text-decoration: none;
-    padding: 15px 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-#sidebar nav a:hover {
-    background-color: var(--primary-color);
-    color: var(--accent-color);
-}
-#sidebar nav a i { margin-right: 15px; width: 20px; text-align: center; }
+#sidebar nav a { /* ... */ }
+#sidebar nav a:hover { /* ... */ }
+#sidebar nav a i { /* ... */ }
 
 
-/* MASONRY GRID */
+/* 3. MASONRY GRID (Fotoğraflar Aşağıda) */
 .gallery-container {
-    column-count: 2; column-gap: 15px; padding: 0 10px;
+    column-count: 2; column-gap: 10px; padding: 0 5px;
 }
 @media (min-width: 768px) {
     .gallery-container {
         column-count: 3; column-gap: 20px; padding: 0 20px;
     }
 }
-.gallery-item { margin-bottom: 15px; break-inside: avoid; opacity: 0; transition: 1s all ease; }
+.gallery-item { 
+    margin-bottom: 10px; break-inside: avoid; opacity: 0; transition: 1s all ease;
+    position: relative; 
+    z-index: 50; /* Karın altında kalmaması için */
+}
 .gallery-item.show { opacity: 1; transform: translateY(0); }
 .gallery-item img {
     width: 100%; border-radius: 4px; cursor: pointer;
@@ -104,19 +85,20 @@ h2 { text-align: center; margin: 30px 0 50px; font-size: 2rem; font-family: 'Pla
 }
 .gallery-item img:hover { filter: brightness(1); transform: scale(1.01); }
 
-/* KATEGORİ LİSTESİ */
-#category-list { list-style: none; padding: 0; text-align: center; }
-#category-list li { margin: 15px 0; }
-#category-list a {
-    color: var(--secondary-color); text-decoration: none; font-size: 1.6rem;
-    display: inline-block; transition: color 0.3s, letter-spacing 0.3s;
-    font-family: 'Playfair Display', serif;
+/* 4. LIGHTBOX */
+.lightbox {
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.95); z-index: 10000;
+    flex-direction: column; justify-content: center; align-items: center; padding: 20px;
 }
-#category-list a:hover { color: var(--accent-color); letter-spacing: 1px; }
 
-/* MESAJ KUTUSU */
-.message-box {
-    text-align: center; padding: 100px 20px;
-    border: 1px solid #333; border-radius: 10px; margin-top: 50px;
+.lightbox-content { 
+    max-width: 90%; max-height: 75vh; border-radius: 5px; object-fit: contain;
 }
-.message-box h2 { font-size: 2.5rem; }
+
+.lightbox-details { /* ... */ }
+#lightbox-description { /* ... */ }
+#lightbox-date { /* ... */ }
+
+.close-btn { /* ... */ z-index: 10001; }
+.close-btn:hover { /* ... */ }
