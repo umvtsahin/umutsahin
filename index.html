@@ -5,59 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Umut Şahin - Kış Galerisi</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="snow-container"></div> 
+    <div id="intro-screen">
+        <div class="intro-content">
+            </div>
+    </div>
+
+    <canvas id="snow-canvas"></canvas> 
     
     <header>
         <h1>UMUT ŞAHİN</h1>
-        <p class="tagline">Işık, Sözler ve Kış Rüyası</p>
-    </header>
+        </header>
 
     <main class="gallery-container">
-        <div class="gallery-item">
-            <img src="https://i.pinimg.com/73x/c0/4b/a3/c04ba3d8c32b49cd10649d6e634d6f92.jpg" alt="Pencere Kenarındaki Kedi" 
-                 data-description="Huzurlu bir kış sabahı. Pencere kenarında dostum ve uzaklardaki şehir silüeti." 
-                 data-date="2025/12/14" 
-                 onclick="openLightbox(this)">
-        </div>
-        
-        <div class="gallery-item">
-            <img src="https://picsum.photos/id/1043/800/600" alt="Göl Manzarası" 
-                 data-description="Kış manzarası. Sessizliğin sesi ve soluk gökyüzü." 
-                 data-date="2025/12/05" 
-                 onclick="openLightbox(this)">
-        </div>
-        
-        <div class="gallery-item">
-            <img src="https://picsum.photos/id/1079/600/950" alt="Kış Işıkları" 
-                 data-description="Sokak lambaları altında düşen ilk kar taneleri." 
-                 data-date="2025/12/12" 
-                 onclick="openLightbox(this)">
-        </div>
-        
-        </main>
+    </main>
+
+    <div id="player"></div>
 
     <div id="lightbox" class="lightbox">
         <span class="close-btn">&times;</span>
-        <img id="lightbox-image" class="lightbox-content" src="" alt="Büyütülmüş Fotoğraf">
-        <div id="lightbox-details" class="lightbox-details">
+        <img id="lightbox-image" class="lightbox-content">
+        <div class="lightbox-details">
             <p id="lightbox-description"></p>
-            <span id="lightbox-date" class="date-info"></span>
+            <span id="lightbox-date"></span>
         </div>
     </div>
 
-    <iframe id="youtube-audio-player" 
-        width="0" height="0"
-        src="https://www.youtube.com/embed/sF80I-TQiW0?autoplay=1&loop=1&playlist=sF80I-TQiW0&controls=0&modestbranding=1" 
-        allow="autoplay; encrypted-media" 
-        allowfullscreen>
-    </iframe>
-
     <script src="script.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
