@@ -1,171 +1,76 @@
-/* style.css - Umut Şahin Kış Galerisi Stilleri */
-
-/* Genel Ayarlar ve Fontlar */
 body {
+    background-color: #0a0a0a;
+    color: #fff;
     font-family: 'Inter', sans-serif;
-    background-color: #121212; /* Koyu Tema: Koyu Gri / Siyah */
-    color: #e0e0e0; /* Koyu Tema: Açık Gri Yazı */
     margin: 0;
-    padding: 0;
-    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* Başlık Alanı */
-header {
-    text-align: center;
-    padding: 60px 20px 40px;
-    border-bottom: 1px solid #333; /* Koyu ayırıcı çizgi */
+/* AÇILIŞ EKRANI STİLİ - Hızlı Kaybolma */
+#intro-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s ease;
 }
 
-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3em;
-    font-weight: 500;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
+.intro-content { text-align: center; }
+
+header { text-align: center; padding: 100px 20px 40px; }
+header h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; letter-spacing: 5px; }
+
+/* KAR KANVASI */
+#snow-canvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 100;
 }
 
-header .tagline {
-    font-size: 0.9em;
-    color: #aaaaaa; /* Koyu Tema: Açık Gri */
-    margin-top: 5px;
-    font-style: italic;
-}
-
-/* Galeri Düzeni: Masonry Grid */
+/* GALERİ VE YÜKLEME ANİMASYONU */
 .gallery-container {
     column-count: 3;
     column-gap: 20px;
-    padding: 40px 30px;
+    padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* VSCO Tarzı YÜKLEME ANİMASYONU */
 .gallery-item {
-    break-inside: avoid;
     margin-bottom: 20px;
+    break-inside: avoid;
     opacity: 0;
-    transform: translateY(20px); 
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+    transform: translateY(30px);
+    transition: 1s all ease;
 }
 
-/* Animasyon Bitiş Durumu */
-.gallery-item.loaded {
-    opacity: 1;
-    transform: translateY(0); 
-}
+.gallery-item.show { opacity: 1; transform: translateY(0); }
 
 .gallery-item img {
     width: 100%;
-    height: auto;
-    display: block;
+    border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    border-radius: 4px; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
+    filter: grayscale(30%);
+    transition: 0.5s;
 }
 
-.gallery-item img:hover {
-    opacity: 0.95;
-    transform: scale(1.01);
-}
+.gallery-item img:hover { filter: grayscale(0%); transform: scale(1.02); }
 
-/* Lightbox Stili (Koyu Tema Uyumlu) */
+/* LIGHTBOX */
 .lightbox {
     display: none;
     position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.98); 
-    padding: 20px;
-    box-sizing: border-box;
+    top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 10000;
+    flex-direction: column;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
 }
 
-.lightbox-content {
-    margin: 40px auto;
-    display: block;
-    max-width: 90%;
-    max-height: 85vh;
-    object-fit: contain;
-}
-
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 30px;
-    color: #fff;
-    font-size: 50px;
-    font-weight: lighter;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.lightbox-details {
-    text-align: center;
-    color: #eee;
-    padding: 10px 0;
-    margin: 10px auto 0;
-    max-width: 80%;
-}
-
-.date-info {
-    font-size: 0.85em;
-    color: #999;
-}
-
-
-/* --- KAR YAĞIŞI STİLLERİ --- */
-#snow-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 99; 
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh);
-    }
-}
-
-.snowflake {
-    color: #fff;
-    font-size: 1em;
-    font-family: Arial, sans-serif;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: -10vh;
-    animation: fall linear infinite;
-    opacity: 0.7;
-}
-
-/* GİZLENMİŞ IFRAME STİLİ (Sadece çalacak, görünmeyecek) */
-#youtube-audio-player {
-    border: none;
-    position: absolute;
-    top: -9999px; /* Ekranda görünmeyecek şekilde taşı */
-    left: -9999px;
-}
-
-/* Mobil Uyum */
-@media (max-width: 768px) {
-    .gallery-container {
-        column-count: 2;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-container {
-        column-count: 1;
-    }
-}
+.lightbox-content { max-width: 80%; max-height: 80%; }
+.close-btn { position: absolute; top: 20px; right: 30px; font-size: 40px; cursor: pointer; }
